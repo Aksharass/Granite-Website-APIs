@@ -1,0 +1,274 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\migrations\\20251105115929_image file changed.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\migrations\\20251105115929_image file changed.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\dtos\\categorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\dtos\\categorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\graniteapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\graniteapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|c:\\users\\sstin\\source\\repos\\graniteapi\\graniteapi\\graniteapi.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{6B9A3EFC-96EE-407B-B4D6-D51C6029C744}|GraniteAPI\\GraniteAPI.csproj|solutionrelative:graniteapi\\graniteapi.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 252,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\.gitignore",
+              "RelativeDocumentMoniker": "GraniteAPI\\.gitignore",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\.gitignore",
+              "RelativeToolTip": "GraniteAPI\\.gitignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-11-07T11:46:42.521Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "20251105115929_image file changed.cs",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\Migrations\\20251105115929_image file changed.cs",
+              "RelativeDocumentMoniker": "GraniteAPI\\Migrations\\20251105115929_image file changed.cs",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\Migrations\\20251105115929_image file changed.cs",
+              "RelativeToolTip": "GraniteAPI\\Migrations\\20251105115929_image file changed.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T12:03:13.296Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "GraniteAPI\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "GraniteAPI\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T07:26:16.816Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProductDto.cs",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\DTOs\\ProductDto.cs",
+              "RelativeDocumentMoniker": "GraniteAPI\\DTOs\\ProductDto.cs",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\DTOs\\ProductDto.cs",
+              "RelativeToolTip": "GraniteAPI\\DTOs\\ProductDto.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAA1wBQAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T06:44:10.961Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CategoryDto.cs",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\DTOs\\CategoryDto.cs",
+              "RelativeDocumentMoniker": "GraniteAPI\\DTOs\\CategoryDto.cs",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\DTOs\\CategoryDto.cs",
+              "RelativeToolTip": "GraniteAPI\\DTOs\\CategoryDto.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAADwvxYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T06:40:02.173Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Category.cs",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\Models\\Category.cs",
+              "RelativeDocumentMoniker": "GraniteAPI\\Models\\Category.cs",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\Models\\Category.cs",
+              "RelativeToolTip": "GraniteAPI\\Models\\Category.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T06:18:48.483Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "GraniteAPI\\Models\\Product.cs",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\Models\\Product.cs",
+              "RelativeToolTip": "GraniteAPI\\Models\\Product.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T06:18:18.026Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "GraniteAPI\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\ApplicationDbContext.cs",
+              "RelativeToolTip": "GraniteAPI\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABIAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T09:40:06.745Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "GraniteAPI.csproj",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\GraniteAPI.csproj",
+              "RelativeDocumentMoniker": "GraniteAPI\\GraniteAPI.csproj",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\GraniteAPI.csproj",
+              "RelativeToolTip": "GraniteAPI\\GraniteAPI.csproj",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAkwBsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-27T09:35:14.831Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "GraniteAPI\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\Properties\\launchSettings.json",
+              "RelativeToolTip": "GraniteAPI\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAUwBkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-27T07:36:38.596Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "GraniteAPI\\appsettings.json",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\appsettings.json",
+              "RelativeToolTip": "GraniteAPI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-27T07:34:50.636Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "GraniteAPI\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\appsettings.Development.json",
+              "RelativeToolTip": "GraniteAPI\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-27T07:34:48.039Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\Program.cs",
+              "RelativeDocumentMoniker": "GraniteAPI\\Program.cs",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\Program.cs",
+              "RelativeToolTip": "GraniteAPI\\Program.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAuwEsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T07:24:33.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "GraniteAPI.http",
+              "DocumentMoniker": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\GraniteAPI.http",
+              "RelativeDocumentMoniker": "GraniteAPI\\GraniteAPI.http",
+              "ToolTip": "C:\\Users\\sstin\\source\\repos\\GraniteAPI\\GraniteAPI\\GraniteAPI.http",
+              "RelativeToolTip": "GraniteAPI\\GraniteAPI.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-10-27T06:54:19.89Z"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 148,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
