@@ -138,3 +138,4 @@ C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\GraniteAPI.pd
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\GraniteAPI.genruntimeconfig.cache
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\ref\GraniteAPI.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\GraniteAPI.staticwebassets.runtime.json
+C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\GraniteAPI.sourcelink.json

@@ -66,11 +66,15 @@
       "DocumentGroups": [
         {
           "DockedHeight": 252,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Document",
@@ -84,10 +88,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-11-07T11:46:42.521Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Document",
@@ -111,8 +111,7 @@
               "RelativeToolTip": "GraniteAPI\\Controllers\\ProductController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T07:26:16.816Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T07:26:16.816Z"
             },
             {
               "$type": "Document",
@@ -220,8 +219,7 @@
               "RelativeToolTip": "GraniteAPI\\appsettings.Development.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-27T07:34:48.039Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T07:34:48.039Z"
             },
             {
               "$type": "Document",
@@ -233,8 +231,7 @@
               "RelativeToolTip": "GraniteAPI\\Program.cs",
               "ViewState": "AgIAAD0AAAAAAAAAAAAuwEsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-27T07:24:33.969Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T07:24:33.969Z"
             },
             {
               "$type": "Document",
