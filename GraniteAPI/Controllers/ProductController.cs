@@ -16,16 +16,8 @@ namespace GraniteAPI.Controllers
         public ProductController(ApplicationDbContext context, IWebHostEnvironment env)
         {
             _context = context;
-            // Fallback if WebRootPath is null
-            var webRoot = env.WebRootPath;
-            if (string.IsNullOrEmpty(webRoot))
-            {
-                webRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-            }
-
+            var webRoot = env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
             _imageFolder = Path.Combine(webRoot, "images");
-
-            // Ensure folder exists
             if (!Directory.Exists(_imageFolder))
                 Directory.CreateDirectory(_imageFolder);
         }
@@ -44,49 +36,28 @@ namespace GraniteAPI.Controllers
                     ImageFileName = p.ImageFileName,
                     CategoryId = p.CategoryId,
                     Category = p.Category.Name
-                })
-                .ToListAsync();
+                }).ToListAsync();
 
             return Ok(products);
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .Where(p => p.Id == id)
-                .Select(p => new ProductDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Color = p.Color,
-                    Price = p.Price,
-                    ImageFileName = p.ImageFileName,
-                    CategoryId = p.CategoryId,
-                    Category = p.Category.Name
-                })
-                .FirstOrDefaultAsync();
-
-            if (product == null)
-                return NotFound(new { message = "Product not found" });
-
-            return Ok(product);
-        }
         [HttpPost("insert")]
-        public async Task<IActionResult> Create([FromForm] ProductCreateUpdateDto request)
+        public async Task<IActionResult> Create([FromBody] ProductCreateUpdateDto request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState); // <-- this is likely triggering 400
+            string fileName = null; // <-- declare here
 
-            // Save file
-            string fileName = null;
-            if (request.Image != null)
+            if (!string.IsNullOrEmpty(request.ImageBase64))
             {
-                fileName = $"{Guid.NewGuid()}{Path.GetExtension(request.Image.FileName)}";
-                var filePath = Path.Combine(_imageFolder, fileName);
-                using var stream = new FileStream(filePath, FileMode.Create);
-                await request.Image.CopyToAsync(stream);
+                string base64Data = request.ImageBase64;
+
+                // Remove "data:image/...;base64," if present
+                if (base64Data.Contains(","))
+                    base64Data = base64Data.Split(',')[1];
+
+                var bytes = Convert.FromBase64String(base64Data);
+                fileName = $"{Guid.NewGuid()}.png"; // <-- do NOT use 'var' here
+                var path = Path.Combine(_imageFolder, fileName);
+                await System.IO.File.WriteAllBytesAsync(path, bytes);
             }
 
             var product = new Product
@@ -114,34 +85,50 @@ namespace GraniteAPI.Controllers
 
 
         [HttpPut("update/{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromForm] ProductCreateUpdateDto request)
+        public async Task<IActionResult> Update(int id, [FromBody] ProductCreateUpdateDto request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var product = await _context.Products.FindAsync(id);
             if (product == null)
                 return NotFound(new { message = "Product not found" });
 
+            // Validate Category
             var category = await _context.Categories.FindAsync(request.CategoryId);
             if (category == null)
                 return BadRequest(new { message = "Invalid CategoryId" });
 
-            // Save file if provided
-            if (request.Image != null)
+            string fileName = product.ImageFileName; // existing image
+            string oldFileName = product.ImageFileName;
+
+            if (!string.IsNullOrEmpty(request.ImageBase64))
             {
-                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(request.Image.FileName)}";
-                var filePath = Path.Combine(_imageFolder, fileName);
-                using var stream = new FileStream(filePath, FileMode.Create);
-                await request.Image.CopyToAsync(stream);
-                product.ImageFileName = fileName;
+                string base64Data = request.ImageBase64;
+
+                if (base64Data.Contains(","))
+                    base64Data = base64Data.Split(',')[1];
+
+                var bytes = Convert.FromBase64String(base64Data);
+
+                // Generate new file name
+                fileName = $"{Guid.NewGuid()}.png";
+                var path = Path.Combine(_imageFolder, fileName);
+
+                await System.IO.File.WriteAllBytesAsync(path, bytes);
+
+                // Delete old image if it's different
+                if (!string.IsNullOrEmpty(oldFileName) && oldFileName != fileName)
+                {
+                    var oldPath = Path.Combine(_imageFolder, oldFileName);
+                    if (System.IO.File.Exists(oldPath))
+                        System.IO.File.Delete(oldPath);
+                }
             }
 
-            // Update other fields
+            // Update fields
             product.Name = request.Name;
             product.Color = request.Color;
             product.Price = request.Price;
             product.CategoryId = request.CategoryId;
+            product.ImageFileName = fileName;
 
             await _context.SaveChangesAsync();
 
@@ -157,14 +144,13 @@ namespace GraniteAPI.Controllers
         }
 
 
+
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _context.Products.FindAsync(id);
-            if (product == null)
-                return NotFound(new { message = "Product not found" });
+            if (product == null) return NotFound(new { message = "Product not found" });
 
-            // Delete image file
             if (!string.IsNullOrEmpty(product.ImageFileName))
             {
                 var path = Path.Combine(_imageFolder, product.ImageFileName);
@@ -177,5 +163,32 @@ namespace GraniteAPI.Controllers
 
             return Ok(new { message = "Product deleted successfully" });
         }
+
+        [HttpGet("images/{fileName}")]
+        public IActionResult GetImage(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                return BadRequest();
+
+            var path = Path.Combine(_imageFolder, fileName);
+            if (!System.IO.File.Exists(path))
+                return NotFound();
+
+            // Determine MIME type (optional)
+            var ext = Path.GetExtension(fileName).ToLower();
+            var contentType = ext switch
+            {
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".gif" => "image/gif",
+                _ => "application/octet-stream"
+            };
+
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, contentType);
+        }
+
     }
+
+
 }

@@ -10,6 +10,11 @@
         public string ImageFileName { get; set; } = string.Empty;
         public int CategoryId { get; set; }
         public string Category { get; set; } = string.Empty;
+
+      
+        public string ImageUrl => string.IsNullOrEmpty(ImageFileName)
+            ? null
+            : $"/images/{ImageFileName}";
     }
 
     // Create & Update DTO
@@ -18,7 +23,7 @@
         public string Name { get; set; } = string.Empty;
         public string Color { get; set; } = string.Empty;
         public decimal Price { get; set; }
-        public IFormFile? Image { get; set; }
+        public string? ImageBase64 { get; set; }
         public int CategoryId { get; set; }
     }
 }

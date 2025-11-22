@@ -1,82 +1,51 @@
-﻿using Microsoft.AspNetCore.Identity;
+using GraniteAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using GraniteAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Add MySQL EF Core
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(8, 0, 33))
-    ));
+// Force Development so Swagger auto-opens locally
+Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
-// ✅ Add Identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
-
-// ✅ Add CORS (Frontend Access)
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", p =>
-        p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
-    );
-});
-
-// ✅ Add Controllers + Swagger
+// Controllers
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
 
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "Granite Web API",
-        Version = "v1",
-        Description = "API documentation for Granite Website Project"
-    });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "GraniteAPI", Version = "v1" });
+});
 
-    // ✅ Add Bearer Authentication support to Swagger
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "Enter JWT Token: Bearer {token}",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
+// PostgreSQL
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("_myAllowSpecificOrigins", policy =>
     {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] {}
-        }
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
 
 var app = builder.Build();
 
-// ✅ Swagger Middleware
-if (app.Environment.IsDevelopment())
+// Enable Swagger ALWAYS
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-app.UseStaticFiles(); // Enables serving files from wwwroot
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "GraniteAPI v1");
+    c.RoutePrefix = string.Empty;   // Swagger at root
+});
 
-app.UseHttpsRedirection();
-app.UseCors("AllowAll");
-app.UseAuthentication();
+// Disable HTTPS redirect for local testing
+// app.UseHttpsRedirection();
+
+app.UseCors("_myAllowSpecificOrigins");
 app.UseAuthorization();
 app.MapControllers();
 
