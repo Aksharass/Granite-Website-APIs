@@ -15,9 +15,6 @@ C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\GraniteAPI.ru
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\GraniteAPI.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\GraniteAPI.pdb
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Humanizer.dll
-C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
-C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
-C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.Build.Locator.dll
@@ -37,16 +34,12 @@ C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.Ext
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
-C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
-C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Microsoft.OpenApi.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Mono.TextTemplating.dll
-C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\MySqlConnector.dll
-C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -130,7 +123,6 @@ C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\staticwebasse
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\staticwebassets.development.json
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\GraniteAPI.csproj.Up2Date
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\GraniteAPI.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\refint\GraniteAPI.dll
@@ -139,3 +131,6 @@ C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\GraniteAPI.ge
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\ref\GraniteAPI.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\GraniteAPI.staticwebassets.runtime.json
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\GraniteAPI.sourcelink.json
+C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Npgsql.dll
+C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

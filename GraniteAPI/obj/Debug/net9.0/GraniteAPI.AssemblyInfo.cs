@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("303f5c9c-e77c-4ac7-8fe6-306f5fc2b21a")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("GraniteAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+93d5f0a3d1210cd61a7fbe41e7cbc32eb8f57b00")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3f07252674797ecbef6e4eaac9f11dbd973ccc1d")]
 [assembly: System.Reflection.AssemblyProductAttribute("GraniteAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GraniteAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

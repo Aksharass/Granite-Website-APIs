@@ -1,19 +1,13 @@
-﻿# Visual Studio temp files
+﻿# Visual Studio
 .vs/
+*.user
+*.suo
+*.cache
 
-# Build output
+# Build folders
 bin/
 obj/
 
-# User-specific files
-*.user
-*.suo
-*.userosscache
-*.sln.docstates
-
-# NuGet packages
+# NuGet
 *.nupkg
 packages/
-
-# Secrets / environment configs
-appsettings.*.json
