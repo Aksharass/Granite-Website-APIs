@@ -40,24 +40,37 @@ namespace GraniteAPI.Controllers
 
             return Ok(products);
         }
-
         [HttpPost("insert")]
         public async Task<IActionResult> Create([FromBody] ProductCreateUpdateDto request)
         {
-            string fileName = null; // <-- declare here
+            string fileName = null;
 
             if (!string.IsNullOrEmpty(request.ImageBase64))
             {
-                string base64Data = request.ImageBase64;
+                try
+                {
+                    string base64Data = request.ImageBase64;
 
-                // Remove "data:image/...;base64," if present
-                if (base64Data.Contains(","))
-                    base64Data = base64Data.Split(',')[1];
+                    // clean base64
+                    if (base64Data.Contains(","))
+                        base64Data = base64Data.Split(',')[1];
 
-                var bytes = Convert.FromBase64String(base64Data);
-                fileName = $"{Guid.NewGuid()}.png"; // <-- do NOT use 'var' here
-                var path = Path.Combine(_imageFolder, fileName);
-                await System.IO.File.WriteAllBytesAsync(path, bytes);
+                    byte[] bytes = Convert.FromBase64String(base64Data);
+
+                    // ensure folder exists
+                    string imageFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+                    if (!Directory.Exists(imageFolder))
+                        Directory.CreateDirectory(imageFolder);
+
+                    fileName = $"{Guid.NewGuid()}.png";
+                    string filePath = Path.Combine(imageFolder, fileName);
+
+                    await System.IO.File.WriteAllBytesAsync(filePath, bytes);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { message = "Invalid Base64 image", error = ex.Message });
+                }
             }
 
             var product = new Product
@@ -82,6 +95,7 @@ namespace GraniteAPI.Controllers
                 ImageFileName = product.ImageFileName
             });
         }
+
 
 
         [HttpPut("update/{id:int}")]
