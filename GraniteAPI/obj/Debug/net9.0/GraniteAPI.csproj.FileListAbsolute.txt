@@ -134,3 +134,6 @@ C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\GraniteAPI.so
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Npgsql.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\SendGrid.dll
+C:\Users\sstin\source\repos\GraniteAPI\GraniteAPI\bin\Debug\net9.0\StarkbankEcdsa.dll

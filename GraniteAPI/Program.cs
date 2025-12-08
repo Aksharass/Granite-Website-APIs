@@ -1,11 +1,13 @@
 using GraniteAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using GraniteAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Force Development so Swagger auto-opens locally
 Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
+builder.Services.AddScoped<SendGridService>();
 
 // Controllers
 builder.Services.AddControllers();

@@ -12,5 +12,8 @@ namespace GraniteAPI.Data
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Gallery> Galleries { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }
