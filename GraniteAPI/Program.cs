@@ -1,7 +1,8 @@
 using GraniteAPI.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using GraniteAPI.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,18 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// Serve wwwroot (images, css, js)
+app.UseStaticFiles();
+
+// Explicitly expose wwwroot/images
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.WebRootPath, "images")),
+    RequestPath = "/images"
+});
+
 
 // Enable Swagger ALWAYS
 app.UseSwagger();
