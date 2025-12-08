@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GraniteAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+144f2391fd2ce73e551f4f2cd3e05acbe7d0ea5f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a3f53b3b3b5d9dd05f5eafcda49ca5e5909213a")]
 [assembly: System.Reflection.AssemblyProductAttribute("GraniteAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GraniteAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

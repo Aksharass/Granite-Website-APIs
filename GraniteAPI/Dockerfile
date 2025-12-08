@@ -16,7 +16,8 @@ WORKDIR /app
 
 COPY --from=build /app .
 
-# Render sets PORT automatically, so use it:
+# Render will inject PORT (usually 10000)
+ARG PORT=10000
 ENV ASPNETCORE_URLS=http://0.0.0.0:${PORT}
 
 ENTRYPOINT ["dotnet", "GraniteAPI.dll"]
