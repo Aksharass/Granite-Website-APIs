@@ -42,6 +42,7 @@ namespace GraniteAPI.Controllers
 
             return Ok(products);
         }
+
         [HttpPost("insert")]
         public async Task<IActionResult> Create([FromBody] ProductCreateUpdateDto request)
         {
@@ -53,19 +54,15 @@ namespace GraniteAPI.Controllers
                 {
                     string base64Data = request.ImageBase64;
 
-                    // clean base64
                     if (base64Data.Contains(","))
                         base64Data = base64Data.Split(',')[1];
 
                     byte[] bytes = Convert.FromBase64String(base64Data);
 
-                    // ensure folder exists
-                    string imageFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
-                    if (!Directory.Exists(imageFolder))
-                        Directory.CreateDirectory(imageFolder);
-
                     fileName = $"{Guid.NewGuid()}.png";
-                    string filePath = Path.Combine(imageFolder, fileName);
+
+                    // Save to correct folder
+                    string filePath = Path.Combine(_imageFolder, fileName);
 
                     await System.IO.File.WriteAllBytesAsync(filePath, bytes);
                 }
@@ -99,6 +96,7 @@ namespace GraniteAPI.Controllers
                 ImageFileName = product.ImageFileName
             });
         }
+
 
 
 
