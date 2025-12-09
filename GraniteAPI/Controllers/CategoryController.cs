@@ -253,9 +253,7 @@ namespace GraniteAPI.Controllers
                             Description = p.Description,
                             Brand = p.Brand,
                             Size = p.Size,
-                            ImageBase64 = p.ImageData != null
-                    ? $"data:{p.ImageMimeType};base64,{Convert.ToBase64String(p.ImageData)}"
-                    : null,
+                            ImageUrl = p.ImageUrl,
                             CategoryId = p.CategoryId,
                             Category = category.Name,
                             SubCategoryId = p.SubCategoryId,

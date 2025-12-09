@@ -12,7 +12,7 @@
         public string Category { get; set; } = string.Empty;
         public int? SubCategoryId { get; set; }
         public string? SubCategoryName { get; set; }
-        public string? ImageBase64 { get; set; }
+        public string ImageUrl { get; set; } = string.Empty;
     }
 
     // Create & Update DTO

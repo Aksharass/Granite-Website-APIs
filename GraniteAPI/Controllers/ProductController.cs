@@ -1,6 +1,7 @@
 ﻿using GraniteAPI.Data;
 using GraniteAPI.DTOs;
 using GraniteAPI.Models;
+using GraniteAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,9 +18,6 @@ namespace GraniteAPI.Controllers
             _context = context;
         }
 
-        // ===============================
-        // GET ALL PRODUCTS
-        // ===============================
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -37,33 +35,21 @@ namespace GraniteAPI.Controllers
                     Category = p.Category.Name,
                     SubCategoryId = p.SubCategoryId,
                     SubCategoryName = p.SubCategory != null ? p.SubCategory.Name : null,
-                    ImageBase64 = p.ImageData != null
-                        ? $"data:{p.ImageMimeType};base64,{Convert.ToBase64String(p.ImageData)}"
-                        : null
+                    ImageUrl = p.ImageUrl
                 })
                 .ToListAsync();
 
             return Ok(products);
         }
 
-        // ===============================
-        // INSERT PRODUCT
-        // ===============================
         [HttpPost("insert")]
-        public async Task<IActionResult> Create([FromBody] ProductCreateUpdateDto request)
+        public async Task<IActionResult> Create([FromBody] ProductCreateUpdateDto request, [FromServices] CloudinaryService cloudinary)
         {
-            byte[]? imageBytes = null;
-            string? mimeType = null;
+            string? imageUrl = null;
 
             if (!string.IsNullOrEmpty(request.ImageBase64))
             {
-                string base64 = request.ImageBase64;
-
-                if (base64.Contains(","))
-                    base64 = base64.Split(',')[1];
-
-                imageBytes = Convert.FromBase64String(base64);
-                mimeType = "image/png";   // or detect dynamically
+                imageUrl = await cloudinary.UploadBase64ImageAsync(request.ImageBase64);
             }
 
             var product = new Product
@@ -74,8 +60,7 @@ namespace GraniteAPI.Controllers
                 Size = request.Size,
                 CategoryId = request.CategoryId,
                 SubCategoryId = request.SubCategoryId,
-                ImageData = imageBytes,
-                ImageMimeType = mimeType
+                ImageUrl = imageUrl
             };
 
             _context.Products.Add(product);
@@ -86,43 +71,19 @@ namespace GraniteAPI.Controllers
                 ? await _context.SubCategories.FindAsync(product.SubCategoryId.Value)
                 : null;
 
-            return Ok(new ProductDto
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Brand = product.Brand,
-                Size = product.Size,
-                CategoryId = product.CategoryId,
-                Category = category?.Name ?? "",
-                SubCategoryId = product.SubCategoryId,
-                SubCategoryName = subCategory?.Name,
-                ImageBase64 = product.ImageData != null
-                    ? $"data:{product.ImageMimeType};base64,{Convert.ToBase64String(product.ImageData)}"
-                    : null
-            });
+            return Ok(product);
         }
 
-        // ===============================
-        // UPDATE PRODUCT
-        // ===============================
         [HttpPut("update/{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] ProductCreateUpdateDto request)
+        public async Task<IActionResult> Update(int id, [FromBody] ProductCreateUpdateDto request, [FromServices] CloudinaryService cloudinary)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)
                 return NotFound(new { message = "Product not found" });
 
-            // Update image only if new image is uploaded
             if (!string.IsNullOrEmpty(request.ImageBase64))
             {
-                string base64 = request.ImageBase64;
-
-                if (base64.Contains(","))
-                    base64 = base64.Split(',')[1];
-
-                product.ImageData = Convert.FromBase64String(base64);
-                product.ImageMimeType = "image/png";
+                product.ImageUrl = await cloudinary.UploadBase64ImageAsync(request.ImageBase64);
             }
 
             product.Name = request.Name;
@@ -139,26 +100,9 @@ namespace GraniteAPI.Controllers
                 ? await _context.SubCategories.FindAsync(product.SubCategoryId.Value)
                 : null;
 
-            return Ok(new ProductDto
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Brand = product.Brand,
-                Size = product.Size,
-                CategoryId = product.CategoryId,
-                Category = category.Name,
-                SubCategoryId = product.SubCategoryId,
-                SubCategoryName = subCategory?.Name,
-                ImageBase64 = product.ImageData != null
-                    ? $"data:{product.ImageMimeType};base64,{Convert.ToBase64String(product.ImageData)}"
-                    : null
-            });
+            return Ok(product);
         }
 
-        // ===============================
-        // DELETE PRODUCT
-        // ===============================
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

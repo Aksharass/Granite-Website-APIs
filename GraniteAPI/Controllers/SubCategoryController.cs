@@ -204,12 +204,11 @@ namespace GraniteAPI.Controllers
                             Description = p.Description,
                             Brand = p.Brand,
                             Size = p.Size,
-                            ImageBase64 = p.ImageData != null
-                    ? $"data:{p.ImageMimeType};base64,{Convert.ToBase64String(p.ImageData)}"
-                    : null,
+                            ImageUrl = p.ImageUrl,
                             CategoryId = p.CategoryId,
                             Category = p.Category.Name,
-                            SubCategoryId = p.SubCategoryId
+                            SubCategoryId = p.SubCategoryId,
+                            SubCategoryName = sc.Name
                         }).ToList()
                     })
                     .ToListAsync();
@@ -252,12 +251,12 @@ namespace GraniteAPI.Controllers
                         Description = p.Description,
                         Brand = p.Brand,
                         Size = p.Size,
-                        ImageBase64 = p.ImageData != null
-                    ? $"data:{p.ImageMimeType};base64,{Convert.ToBase64String(p.ImageData)}"
-                    : null,
+                        ImageUrl = p.ImageUrl,
                         CategoryId = p.CategoryId,
                         Category = p.Category.Name,
-                        SubCategoryId = p.SubCategoryId
+                        SubCategoryId = p.SubCategoryId,
+                        SubCategoryName = subCategory.Name
+
                     }).ToList()
                 };
 

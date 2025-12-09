@@ -12,7 +12,6 @@
         public Category Category { get; set; }
         public int? SubCategoryId { get; set; }
         public SubCategory? SubCategory { get; set; }
-        public byte[]? ImageData { get; set; }
-        public string? ImageMimeType { get; set; }
+        public string ImageUrl { get; set; } = string.Empty;
     }
 }

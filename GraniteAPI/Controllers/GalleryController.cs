@@ -2,6 +2,7 @@
 using GraniteAPI.DTOs;
 using GraniteAPI.Migrations;
 using GraniteAPI.Models;
+using GraniteAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,9 +27,7 @@ namespace GraniteAPI.Controllers
                 .Select(g => new GalleryDto
                 {
                     Id = g.Id,
-                    ImageBase64 = g.ImageData != null
-                        ? $"data:{g.ImageMimeType};base64,{Convert.ToBase64String(g.ImageData)}"
-                        : null
+                    ImageUrl = g.ImageUrl
                 })
                 .ToListAsync();
 
@@ -37,21 +36,17 @@ namespace GraniteAPI.Controllers
 
         // INSERT gallery image (no productId)
         [HttpPost("insert")]
-        public async Task<IActionResult> Insert([FromBody] GalleryCreateDto request)
+        public async Task<IActionResult> Insert([FromBody] GalleryCreateDto request, [FromServices] CloudinaryService cloudinary)
         {
             if (string.IsNullOrEmpty(request.ImageBase64))
                 return BadRequest(new { message = "ImageBase64 is required" });
 
-            string base64 = request.ImageBase64;
-            if (base64.Contains(","))
-                base64 = base64.Split(',')[1];
-
-            var bytes = Convert.FromBase64String(base64);
+            // Upload to Cloudinary  
+            string imageUrl = await cloudinary.UploadBase64ImageAsync(request.ImageBase64);
 
             var galleryItem = new Gallery
             {
-                ImageData = bytes,
-                ImageMimeType = "image/png"
+                ImageUrl = imageUrl
             };
 
             _context.Galleries.Add(galleryItem);
@@ -60,13 +55,13 @@ namespace GraniteAPI.Controllers
             return Ok(new GalleryDto
             {
                 Id = galleryItem.Id,
-                ImageBase64 = $"data:{galleryItem.ImageMimeType};base64,{Convert.ToBase64String(galleryItem.ImageData)}"
+                ImageUrl = galleryItem.ImageUrl
             });
         }
 
         // UPDATE gallery image
         [HttpPut("update/{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] GalleryCreateDto request)
+        public async Task<IActionResult> Update(int id, [FromBody] GalleryCreateDto request, [FromServices] CloudinaryService cloudinary)
         {
             var item = await _context.Galleries.FindAsync(id);
             if (item == null)
@@ -74,11 +69,9 @@ namespace GraniteAPI.Controllers
 
             if (!string.IsNullOrEmpty(request.ImageBase64))
             {
-                string base64 = request.ImageBase64;
-                if (base64.Contains(",")) base64 = base64.Split(',')[1];
+                string newImageUrl = await cloudinary.UploadBase64ImageAsync(request.ImageBase64);
 
-                item.ImageData = Convert.FromBase64String(base64);
-                item.ImageMimeType = "image/png";
+                item.ImageUrl = newImageUrl;
             }
 
             await _context.SaveChangesAsync();
@@ -86,7 +79,7 @@ namespace GraniteAPI.Controllers
             return Ok(new GalleryDto
             {
                 Id = item.Id,
-                ImageBase64 = $"data:{item.ImageMimeType};base64,{Convert.ToBase64String(item.ImageData)}"
+                ImageUrl = item.ImageUrl
             });
         }
 
@@ -109,21 +102,21 @@ namespace GraniteAPI.Controllers
         public async Task<IActionResult> GetProductImages()
         {
             var images = await _context.Products
-                .Where(p => p.ImageData != null)
+                .Where(p => p.ImageUrl != null)
                 .Select(p => new GalleryDto
                 {
                     Id = p.Id,
-                    ImageBase64 = $"data:{p.ImageMimeType};base64,{Convert.ToBase64String(p.ImageData)}"
+                    ImageUrl = p.ImageUrl
                 })
                 .ToListAsync();
 
             // --- 2) Get gallery images ---
             var galleryImages = await _context.Galleries
-                .Where(g => g.ImageData != null)
+                .Where(g => g.ImageUrl != null)
                 .Select(g => new GalleryDto
                 {
                     Id = g.Id,
-                    ImageBase64 = $"data:{g.ImageMimeType};base64,{Convert.ToBase64String(g.ImageData)}"
+                    ImageUrl = g.ImageUrl
                 })
                 .ToListAsync();
 
