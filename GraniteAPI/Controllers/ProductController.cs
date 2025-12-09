@@ -3,7 +3,6 @@ using GraniteAPI.DTOs;
 using GraniteAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GraniteAPI.Controllers
 {
@@ -12,22 +11,21 @@ namespace GraniteAPI.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly string _imageFolder;
 
-        public ProductController(ApplicationDbContext context, IWebHostEnvironment env)
+        public ProductController(ApplicationDbContext context)
         {
             _context = context;
-            var webRoot = env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-            _imageFolder = Path.Combine(webRoot, "images");
-            if (!Directory.Exists(_imageFolder))
-                Directory.CreateDirectory(_imageFolder);
         }
 
+        // ===============================
+        // GET ALL PRODUCTS
+        // ===============================
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var products = await _context.Products
                 .Include(p => p.Category)
+                .Include(p => p.SubCategory)
                 .Select(p => new ProductDto
                 {
                     Id = p.Id,
@@ -35,41 +33,37 @@ namespace GraniteAPI.Controllers
                     Description = p.Description,
                     Brand = p.Brand,
                     Size = p.Size,
-                    ImageFileName = p.ImageFileName,
                     CategoryId = p.CategoryId,
-                    Category = p.Category.Name
-                }).ToListAsync();
+                    Category = p.Category.Name,
+                    SubCategoryId = p.SubCategoryId,
+                    SubCategoryName = p.SubCategory != null ? p.SubCategory.Name : null,
+                    ImageBase64 = p.ImageData != null
+                        ? $"data:{p.ImageMimeType};base64,{Convert.ToBase64String(p.ImageData)}"
+                        : null
+                })
+                .ToListAsync();
 
             return Ok(products);
         }
 
+        // ===============================
+        // INSERT PRODUCT
+        // ===============================
         [HttpPost("insert")]
         public async Task<IActionResult> Create([FromBody] ProductCreateUpdateDto request)
         {
-            string fileName = null;
+            byte[]? imageBytes = null;
+            string? mimeType = null;
 
             if (!string.IsNullOrEmpty(request.ImageBase64))
             {
-                try
-                {
-                    string base64Data = request.ImageBase64;
+                string base64 = request.ImageBase64;
 
-                    if (base64Data.Contains(","))
-                        base64Data = base64Data.Split(',')[1];
+                if (base64.Contains(","))
+                    base64 = base64.Split(',')[1];
 
-                    byte[] bytes = Convert.FromBase64String(base64Data);
-
-                    fileName = $"{Guid.NewGuid()}.png";
-
-                    // Save to correct folder
-                    string filePath = Path.Combine(_imageFolder, fileName);
-
-                    await System.IO.File.WriteAllBytesAsync(filePath, bytes);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(new { message = "Invalid Base64 image", error = ex.Message });
-                }
+                imageBytes = Convert.FromBase64String(base64);
+                mimeType = "image/png";   // or detect dynamically
             }
 
             var product = new Product
@@ -79,11 +73,18 @@ namespace GraniteAPI.Controllers
                 Brand = request.Brand,
                 Size = request.Size,
                 CategoryId = request.CategoryId,
-                ImageFileName = fileName
+                SubCategoryId = request.SubCategoryId,
+                ImageData = imageBytes,
+                ImageMimeType = mimeType
             };
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
+
+            var category = await _context.Categories.FindAsync(product.CategoryId);
+            var subCategory = product.SubCategoryId != null
+                ? await _context.SubCategories.FindAsync(product.SubCategoryId.Value)
+                : null;
 
             return Ok(new ProductDto
             {
@@ -93,13 +94,18 @@ namespace GraniteAPI.Controllers
                 Brand = product.Brand,
                 Size = product.Size,
                 CategoryId = product.CategoryId,
-                ImageFileName = product.ImageFileName
+                Category = category?.Name ?? "",
+                SubCategoryId = product.SubCategoryId,
+                SubCategoryName = subCategory?.Name,
+                ImageBase64 = product.ImageData != null
+                    ? $"data:{product.ImageMimeType};base64,{Convert.ToBase64String(product.ImageData)}"
+                    : null
             });
         }
 
-
-
-
+        // ===============================
+        // UPDATE PRODUCT
+        // ===============================
         [HttpPut("update/{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] ProductCreateUpdateDto request)
         {
@@ -107,47 +113,31 @@ namespace GraniteAPI.Controllers
             if (product == null)
                 return NotFound(new { message = "Product not found" });
 
-            // Validate Category
-            var category = await _context.Categories.FindAsync(request.CategoryId);
-            if (category == null)
-                return BadRequest(new { message = "Invalid CategoryId" });
-
-            string fileName = product.ImageFileName; // existing image
-            string oldFileName = product.ImageFileName;
-
+            // Update image only if new image is uploaded
             if (!string.IsNullOrEmpty(request.ImageBase64))
             {
-                string base64Data = request.ImageBase64;
+                string base64 = request.ImageBase64;
 
-                if (base64Data.Contains(","))
-                    base64Data = base64Data.Split(',')[1];
+                if (base64.Contains(","))
+                    base64 = base64.Split(',')[1];
 
-                var bytes = Convert.FromBase64String(base64Data);
-
-                // Generate new file name
-                fileName = $"{Guid.NewGuid()}.png";
-                var path = Path.Combine(_imageFolder, fileName);
-
-                await System.IO.File.WriteAllBytesAsync(path, bytes);
-
-                // Delete old image if it's different
-                if (!string.IsNullOrEmpty(oldFileName) && oldFileName != fileName)
-                {
-                    var oldPath = Path.Combine(_imageFolder, oldFileName);
-                    if (System.IO.File.Exists(oldPath))
-                        System.IO.File.Delete(oldPath);
-                }
+                product.ImageData = Convert.FromBase64String(base64);
+                product.ImageMimeType = "image/png";
             }
 
-            // Update fields
             product.Name = request.Name;
             product.Description = request.Description;
             product.Brand = request.Brand;
             product.Size = request.Size;
             product.CategoryId = request.CategoryId;
-            product.ImageFileName = fileName;
+            product.SubCategoryId = request.SubCategoryId;
 
             await _context.SaveChangesAsync();
+
+            var category = await _context.Categories.FindAsync(product.CategoryId);
+            var subCategory = product.SubCategoryId != null
+                ? await _context.SubCategories.FindAsync(product.SubCategoryId.Value)
+                : null;
 
             return Ok(new ProductDto
             {
@@ -157,31 +147,29 @@ namespace GraniteAPI.Controllers
                 Brand = product.Brand,
                 Size = product.Size,
                 CategoryId = product.CategoryId,
-                ImageFileName = product.ImageFileName
+                Category = category.Name,
+                SubCategoryId = product.SubCategoryId,
+                SubCategoryName = subCategory?.Name,
+                ImageBase64 = product.ImageData != null
+                    ? $"data:{product.ImageMimeType};base64,{Convert.ToBase64String(product.ImageData)}"
+                    : null
             });
         }
 
-
+        // ===============================
+        // DELETE PRODUCT
+        // ===============================
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _context.Products.FindAsync(id);
-            if (product == null) return NotFound(new { message = "Product not found" });
-
-            if (!string.IsNullOrEmpty(product.ImageFileName))
-            {
-                var path = Path.Combine(_imageFolder, product.ImageFileName);
-                if (System.IO.File.Exists(path))
-                    System.IO.File.Delete(path);
-            }
+            if (product == null)
+                return NotFound(new { message = "Product not found" });
 
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Product deleted successfully" });
         }
-
     }
-
-
 }

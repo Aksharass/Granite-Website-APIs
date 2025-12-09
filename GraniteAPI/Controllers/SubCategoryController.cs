@@ -1,5 +1,6 @@
 ﻿using GraniteAPI.Data;
 using GraniteAPI.DTOs;
+using GraniteAPI.Migrations;
 using GraniteAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -101,11 +102,14 @@ namespace GraniteAPI.Controllers
                 _context.SubCategories.Add(subCategory);
                 await _context.SaveChangesAsync();
 
+                var category = await _context.Categories.FindAsync(subCategory.CategoryId);
+
                 return CreatedAtAction(nameof(Get), new { id = subCategory.Id }, new SubCategoryDto
                 {
                     Id = subCategory.Id,
                     Name = subCategory.Name,
-                    CategoryId = subCategory.CategoryId
+                    CategoryId = subCategory.CategoryId,
+                    CategoryName = category?.Name ?? string.Empty
                 });
             }
             catch (Exception ex)
@@ -136,12 +140,14 @@ namespace GraniteAPI.Controllers
                 dbSubCategory.CategoryId = dto.CategoryId;
 
                 await _context.SaveChangesAsync();
+                var category = await _context.Categories.FindAsync(dbSubCategory.CategoryId);
 
                 return Ok(new SubCategoryDto
                 {
                     Id = dbSubCategory.Id,
                     Name = dbSubCategory.Name,
-                    CategoryId = dbSubCategory.CategoryId
+                    CategoryId = dbSubCategory.CategoryId,
+                    CategoryName = category?.Name ?? string.Empty
                 });
             }
             catch (Exception ex)
@@ -198,7 +204,9 @@ namespace GraniteAPI.Controllers
                             Description = p.Description,
                             Brand = p.Brand,
                             Size = p.Size,
-                            ImageFileName = p.ImageFileName,
+                            ImageBase64 = p.ImageData != null
+                    ? $"data:{p.ImageMimeType};base64,{Convert.ToBase64String(p.ImageData)}"
+                    : null,
                             CategoryId = p.CategoryId,
                             Category = p.Category.Name,
                             SubCategoryId = p.SubCategoryId
@@ -244,7 +252,9 @@ namespace GraniteAPI.Controllers
                         Description = p.Description,
                         Brand = p.Brand,
                         Size = p.Size,
-                        ImageFileName = p.ImageFileName,
+                        ImageBase64 = p.ImageData != null
+                    ? $"data:{p.ImageMimeType};base64,{Convert.ToBase64String(p.ImageData)}"
+                    : null,
                         CategoryId = p.CategoryId,
                         Category = p.Category.Name,
                         SubCategoryId = p.SubCategoryId

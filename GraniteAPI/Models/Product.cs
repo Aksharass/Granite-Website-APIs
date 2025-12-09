@@ -8,12 +8,11 @@
         public string Description { get; set; } = string.Empty;
         public string Brand { get; set; } = string.Empty;
         public string Size { get; set; } = string.Empty;
-        public string ImageFileName { get; set; } = string.Empty;
-
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public int? SubCategoryId { get; set; }
         public SubCategory? SubCategory { get; set; }
-
+        public byte[]? ImageData { get; set; }
+        public string? ImageMimeType { get; set; }
     }
 }

@@ -8,14 +8,11 @@
         public string Description { get; set; } = string.Empty;
         public string Brand { get; set; } = string.Empty;
         public string Size { get; set; } = string.Empty;
-        public string ImageFileName { get; set; } = string.Empty;
         public int CategoryId { get; set; }
         public string Category { get; set; } = string.Empty;
         public int? SubCategoryId { get; set; }
         public string? SubCategoryName { get; set; }
-        public string ImageUrl => string.IsNullOrEmpty(ImageFileName)
-            ? null
-            : $"/images/{ImageFileName}";
+        public string? ImageBase64 { get; set; }
     }
 
     // Create & Update DTO

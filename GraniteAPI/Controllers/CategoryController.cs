@@ -157,31 +157,25 @@ namespace GraniteAPI.Controllers
             }
         }
 
-        /// <summary>
-        /// Get All Categories with Products
-        /// </summary>
-        [HttpGet("details")]
-        public async Task<IActionResult> GetAllWithProducts()
+        
+        [HttpGet("with-subcategories")]
+        public async Task<IActionResult> GetAllWithSubCategories()
         {
             try
             {
                 var categories = await _context.Categories
-                    .Include(c => c.Products)
+                    .Include(c => c.SubCategories)
                     .AsNoTracking()
-                    .Select(c => new CategoryWithProductsDto
+                    .Select(c => new CategoryWithSubCategoriesDto
                     {
                         Id = c.Id,
                         Name = c.Name,
-                        Products = c.Products.Select(p => new ProductDto
+                        SubCategories = c.SubCategories.Select(sc => new SubCategoryDto
                         {
-                            Id = p.Id,
-                            Name = p.Name,
-                            Description = p.Description,
-                            Brand = p.Brand,
-                            Size = p.Size,
-                            ImageFileName = p.ImageFileName,
-                            CategoryId = p.CategoryId,
-                            Category = p.Category.Name
+                            Id = sc.Id,
+                            Name = sc.Name,
+                            CategoryId = sc.CategoryId,
+                            CategoryName = c.Name
                         }).ToList()
                     })
                     .ToListAsync();
@@ -190,40 +184,33 @@ namespace GraniteAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Failed to fetch categories with products", error = ex.Message });
+                return StatusCode(500, new { message = "Failed to fetch categories", error = ex.Message });
             }
         }
 
-        /// <summary>
-        /// Get Category By ID With Product Details
-        /// </summary>
-        [HttpGet("details/{id:int}")]
-        public async Task<IActionResult> GetByIdWithProducts(int id)
+        [HttpGet("with-subcategories/{id:int}")]
+        public async Task<IActionResult> GetByIdWithSubCategories(int id)
         {
             try
             {
                 var category = await _context.Categories
-                    .Include(c => c.Products)
+                    .Include(c => c.SubCategories)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(c => c.Id == id);
 
                 if (category == null)
                     return NotFound(new { message = "Category not found" });
 
-                var result = new CategoryWithProductsDto
+                var result = new CategoryWithSubCategoriesDto
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    Products = category.Products.Select(p => new ProductDto
+                    SubCategories = category.SubCategories.Select(sc => new SubCategoryDto
                     {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Description = p.Description,
-                        Brand = p.Brand,
-                        Size = p.Size,
-                        ImageFileName = p.ImageFileName,
-                        CategoryId = p.CategoryId,
-                        Category = p.Category.Name
+                        Id = sc.Id,
+                        Name = sc.Name,
+                        CategoryId = sc.CategoryId,
+                        CategoryName = category.Name
                     }).ToList()
                 };
 
@@ -231,8 +218,59 @@ namespace GraniteAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Failed to fetch category details", error = ex.Message });
+                return StatusCode(500, new { message = "Failed to fetch category", error = ex.Message });
             }
         }
+
+        [HttpGet("details/{id:int}")]
+        public async Task<IActionResult> GetCategoryTree(int id)
+        {
+            try
+            {
+                var category = await _context.Categories
+                    .Include(c => c.SubCategories)
+                        .ThenInclude(sc => sc.Products)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.Id == id);
+
+                if (category == null)
+                    return NotFound(new { message = "Category not found" });
+
+                var result = new
+                {
+                    id = category.Id,
+                    name = category.Name,
+
+                    subCategories = category.SubCategories.Select(sc => new
+                    {
+                        id = sc.Id,
+                        name = sc.Name,
+
+                        products = sc.Products.Select(p => new ProductDto
+                        {
+                            Id = p.Id,
+                            Name = p.Name,
+                            Description = p.Description,
+                            Brand = p.Brand,
+                            Size = p.Size,
+                            ImageBase64 = p.ImageData != null
+                    ? $"data:{p.ImageMimeType};base64,{Convert.ToBase64String(p.ImageData)}"
+                    : null,
+                            CategoryId = p.CategoryId,
+                            Category = category.Name,
+                            SubCategoryId = p.SubCategoryId,
+                            SubCategoryName = sc.Name
+                        }).ToList()
+                    }).ToList()
+                };
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Failed to fetch category tree", error = ex.Message });
+            }
+        }
+
     }
 }

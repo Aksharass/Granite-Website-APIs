@@ -106,17 +106,7 @@
   },
   {
     "ContainingType": "GraniteAPI.Controllers.CategoryController",
-    "Method": "GetAllWithProducts",
-    "RelativePath": "api/Category/details",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "GraniteAPI.Controllers.CategoryController",
-    "Method": "GetByIdWithProducts",
+    "Method": "GetCategoryTree",
     "RelativePath": "api/Category/details/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -162,6 +152,32 @@
       {
         "Name": "dto",
         "Type": "GraniteAPI.DTOs.CategoryCreateUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GraniteAPI.Controllers.CategoryController",
+    "Method": "GetAllWithSubCategories",
+    "RelativePath": "api/Category/with-subcategories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GraniteAPI.Controllers.CategoryController",
+    "Method": "GetByIdWithSubCategories",
+    "RelativePath": "api/Category/with-subcategories/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
