@@ -227,7 +227,17 @@
   },
   {
     "ContainingType": "GraniteAPI.Controllers.GalleryController",
-    "Method": "Create",
+    "Method": "GetProductImages",
+    "RelativePath": "api/Gallery/allImage",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GraniteAPI.Controllers.GalleryController",
+    "Method": "Insert",
     "RelativePath": "api/Gallery/insert",
     "HttpMethod": "POST",
     "IsController": true,
@@ -235,7 +245,7 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "GraniteAPI.DTOs.GalleryCreateUpdateDto",
+        "Type": "GraniteAPI.DTOs.GalleryCreateDto",
         "IsRequired": true
       }
     ],
@@ -256,7 +266,7 @@
       },
       {
         "Name": "request",
-        "Type": "GraniteAPI.DTOs.GalleryCreateUpdateDto",
+        "Type": "GraniteAPI.DTOs.GalleryCreateDto",
         "IsRequired": true
       }
     ],

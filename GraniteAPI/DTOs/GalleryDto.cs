@@ -3,14 +3,11 @@
     public class GalleryDto
     {
         public int Id { get; set; }
-        public string ImageFileName { get; set; } = string.Empty;
-        public string ImageUrl => string.IsNullOrEmpty(ImageFileName)
-            ? null
-            : $"/images/{ImageFileName}";
+        public string? ImageBase64 { get; set; }
     }
 
-    public class GalleryCreateUpdateDto
+    public class GalleryCreateDto
     {
-        public string? ImageBase64 { get; set; } // required for create
+        public string? ImageBase64 { get; set; } // only this needed
     }
 }

@@ -8,11 +8,9 @@
         public string Description { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
 
-        public string ImageFileName { get; set; } = string.Empty;
+        public string? ImageFileName { get; set; }
 
-        public string ImageUrl => string.IsNullOrEmpty(ImageFileName)
-            ? null
-            : $"/images/{ImageFileName}";
+        public string? ImageUrl { get; set; }
 
     }
 

@@ -1,5 +1,6 @@
 ﻿using GraniteAPI.Data;
 using GraniteAPI.DTOs;
+using GraniteAPI.Migrations;
 using GraniteAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,189 +12,129 @@ namespace GraniteAPI.Controllers
     public class GalleryController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly string _imageFolder;
 
-        public GalleryController(ApplicationDbContext context, IWebHostEnvironment env)
+        public GalleryController(ApplicationDbContext context)
         {
             _context = context;
-
-            var webRoot = env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-            _imageFolder = Path.Combine(webRoot, "images");
-
-            if (!Directory.Exists(_imageFolder))
-                Directory.CreateDirectory(_imageFolder);
         }
 
-
-        // GET All Gallery Images
+        // GET: return ALL gallery images (no product filter)
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
-                var items = await _context.Galleries
-                    .Select(g => new GalleryDto
-                    {
-                        Id = g.Id,
-                        ImageFileName = g.ImageFileName,
-                    })
-                    .ToListAsync();
+            var gallery = await _context.Galleries
+                .Select(g => new GalleryDto
+                {
+                    Id = g.Id,
+                    ImageBase64 = g.ImageData != null
+                        ? $"data:{g.ImageMimeType};base64,{Convert.ToBase64String(g.ImageData)}"
+                        : null
+                })
+                .ToListAsync();
 
-                return Ok(items);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Failed to fetch gallery images", error = ex.Message });
-            }
+            return Ok(gallery);
         }
 
-
-        // POST Insert
+        // INSERT gallery image (no productId)
         [HttpPost("insert")]
-        public async Task<IActionResult> Create([FromBody] GalleryCreateUpdateDto request)
+        public async Task<IActionResult> Insert([FromBody] GalleryCreateDto request)
         {
-            if (request == null)
-                return BadRequest(new { message = "Invalid request body" });
-
             if (string.IsNullOrEmpty(request.ImageBase64))
                 return BadRequest(new { message = "ImageBase64 is required" });
 
-            string fileName = null;
+            string base64 = request.ImageBase64;
+            if (base64.Contains(","))
+                base64 = base64.Split(',')[1];
 
-            // Save image (same as ProductController)
-            try
+            var bytes = Convert.FromBase64String(base64);
+
+            var galleryItem = new Gallery
             {
-                string base64Data = request.ImageBase64;
+                ImageData = bytes,
+                ImageMimeType = "image/png"
+            };
 
-                if (base64Data.Contains(","))
-                    base64Data = base64Data.Split(',')[1];
+            _context.Galleries.Add(galleryItem);
+            await _context.SaveChangesAsync();
 
-                var bytes = Convert.FromBase64String(base64Data);
-
-                fileName = $"{Guid.NewGuid()}.png";
-                string filePath = Path.Combine(_imageFolder, fileName);
-
-                await System.IO.File.WriteAllBytesAsync(filePath, bytes);
-            }
-            catch
+            return Ok(new GalleryDto
             {
-                return BadRequest(new { message = "Invalid Base64 image format" });
-            }
-
-            // Save to DB
-            try
-            {
-                var gallery = new Gallery
-                {
-                    ImageFileName = fileName,
-                };
-
-                _context.Galleries.Add(gallery);
-                await _context.SaveChangesAsync();
-
-                return Ok(new GalleryDto
-                {
-                    Id = gallery.Id,
-                    ImageFileName = gallery.ImageFileName,
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Failed to create gallery item", error = ex.Message });
-            }
+                Id = galleryItem.Id,
+                ImageBase64 = $"data:{galleryItem.ImageMimeType};base64,{Convert.ToBase64String(galleryItem.ImageData)}"
+            });
         }
 
-
-        // PUT Update
+        // UPDATE gallery image
         [HttpPut("update/{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] GalleryCreateUpdateDto request)
+        public async Task<IActionResult> Update(int id, [FromBody] GalleryCreateDto request)
         {
-            if (request == null)
-                return BadRequest(new { message = "Invalid request body" });
-
             var item = await _context.Galleries.FindAsync(id);
             if (item == null)
-                return NotFound(new { message = "Gallery item not found" });
+                return NotFound();
 
-            string fileName = item.ImageFileName;
-            string oldFile = item.ImageFileName;
-
-            // Update image if provided
             if (!string.IsNullOrEmpty(request.ImageBase64))
             {
-                try
-                {
-                    string base64Data = request.ImageBase64;
+                string base64 = request.ImageBase64;
+                if (base64.Contains(",")) base64 = base64.Split(',')[1];
 
-                    if (base64Data.Contains(","))
-                        base64Data = base64Data.Split(',')[1];
-
-                    var bytes = Convert.FromBase64String(base64Data);
-
-                    fileName = $"{Guid.NewGuid()}.png";
-                    string path = Path.Combine(_imageFolder, fileName);
-
-                    await System.IO.File.WriteAllBytesAsync(path, bytes);
-
-                    // Delete old image
-                    if (!string.IsNullOrEmpty(oldFile) && oldFile != fileName)
-                    {
-                        var oldPath = Path.Combine(_imageFolder, oldFile);
-                        if (System.IO.File.Exists(oldPath))
-                            System.IO.File.Delete(oldPath);
-                    }
-                }
-                catch
-                {
-                    return BadRequest(new { message = "Invalid Base64 image format" });
-                }
+                item.ImageData = Convert.FromBase64String(base64);
+                item.ImageMimeType = "image/png";
             }
 
-            try
+            await _context.SaveChangesAsync();
+
+            return Ok(new GalleryDto
             {
-                item.ImageFileName = fileName;
-
-                await _context.SaveChangesAsync();
-
-                return Ok(new GalleryDto
-                {
-                    Id = item.Id,
-                    ImageFileName = item.ImageFileName,
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Failed to update gallery item", error = ex.Message });
-            }
+                Id = item.Id,
+                ImageBase64 = $"data:{item.ImageMimeType};base64,{Convert.ToBase64String(item.ImageData)}"
+            });
         }
 
-
-        // DELETE
+        // DELETE gallery image
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
             var item = await _context.Galleries.FindAsync(id);
             if (item == null)
-                return NotFound(new { message = "Gallery item not found" });
+                return NotFound();
 
-            try
-            {
-                if (!string.IsNullOrEmpty(item.ImageFileName))
+            _context.Galleries.Remove(item);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Deleted successfully" });
+        }
+
+        // GET: return ONLY product images
+        [HttpGet("allImage")]
+        public async Task<IActionResult> GetProductImages()
+        {
+            var images = await _context.Products
+                .Where(p => p.ImageData != null)
+                .Select(p => new GalleryDto
                 {
-                    var path = Path.Combine(_imageFolder, item.ImageFileName);
-                    if (System.IO.File.Exists(path))
-                        System.IO.File.Delete(path);
-                }
+                    Id = p.Id,
+                    ImageBase64 = $"data:{p.ImageMimeType};base64,{Convert.ToBase64String(p.ImageData)}"
+                })
+                .ToListAsync();
 
-                _context.Galleries.Remove(item);
-                await _context.SaveChangesAsync();
+            // --- 2) Get gallery images ---
+            var galleryImages = await _context.Galleries
+                .Where(g => g.ImageData != null)
+                .Select(g => new GalleryDto
+                {
+                    Id = g.Id,
+                    ImageBase64 = $"data:{g.ImageMimeType};base64,{Convert.ToBase64String(g.ImageData)}"
+                })
+                .ToListAsync();
 
-                return Ok(new { message = "Gallery item deleted successfully" });
-            }
-            catch (Exception ex)
+            // --- 3) Merge both ---
+            var allImages = images.Concat(galleryImages).ToList();
+
+            return Ok(new
             {
-                return StatusCode(500, new { message = "Failed to delete gallery item", error = ex.Message });
-            }
+                totalCount = allImages.Count,
+                data = allImages
+            });
         }
     }
 }

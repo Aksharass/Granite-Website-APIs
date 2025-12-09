@@ -352,17 +352,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GalleryCreateUpdateDto"
+                "$ref": "#/components/schemas/GalleryCreateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/GalleryCreateUpdateDto"
+                "$ref": "#/components/schemas/GalleryCreateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/GalleryCreateUpdateDto"
+                "$ref": "#/components/schemas/GalleryCreateDto"
               }
             }
           }
@@ -394,17 +394,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GalleryCreateUpdateDto"
+                "$ref": "#/components/schemas/GalleryCreateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/GalleryCreateUpdateDto"
+                "$ref": "#/components/schemas/GalleryCreateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/GalleryCreateUpdateDto"
+                "$ref": "#/components/schemas/GalleryCreateDto"
               }
             }
           }
@@ -431,6 +431,18 @@
               "format": "int32"
             }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Gallery/allImage": {
+      "get": {
+        "tags": [
+          "Gallery"
         ],
         "responses": {
           "200": {
@@ -776,7 +788,7 @@
         },
         "additionalProperties": false
       },
-      "GalleryCreateUpdateDto": {
+      "GalleryCreateDto": {
         "type": "object",
         "properties": {
           "imageBase64": {

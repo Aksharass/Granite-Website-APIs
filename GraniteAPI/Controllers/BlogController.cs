@@ -1,6 +1,7 @@
 ﻿using GraniteAPI.Data;
 using GraniteAPI.DTOs;
 using GraniteAPI.Models;
+using GraniteAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,7 +38,8 @@ namespace GraniteAPI.Controllers
                         Title = b.Title,
                         Description = b.Description,
                         Content = b.Content,
-                        ImageFileName = b.ImageFileName
+                        ImageFileName = b.ImageFileName,
+                        ImageUrl = b.ImageFileName
                     }).ToListAsync();
 
                 return Ok(blogs);
@@ -50,7 +52,7 @@ namespace GraniteAPI.Controllers
 
         // POST Create
         [HttpPost("insert")]
-        public async Task<IActionResult> Create([FromBody] BlogCreateUpdateDto request)
+        public async Task<IActionResult> Create([FromBody] BlogCreateUpdateDto request, [FromServices] CloudinaryService cloudinary)
         {
             if (request == null)
                 return BadRequest(new { message = "Invalid request body" });
@@ -58,30 +60,13 @@ namespace GraniteAPI.Controllers
             if (string.IsNullOrWhiteSpace(request.Title))
                 return BadRequest(new { message = "Title is required" });
 
-            string fileName = null;
+            string imageUrl = null;
 
             if (!string.IsNullOrEmpty(request.ImageBase64))
-            {
-                try
-                {
-                    string base64 = request.ImageBase64;
+                imageUrl = await cloudinary.UploadBase64ImageAsync(request.ImageBase64);
 
-                    if (base64.Contains(","))
-                        base64 = base64.Split(',')[1];
 
-                    var bytes = Convert.FromBase64String(base64);
-
-                    fileName = $"{Guid.NewGuid()}.png";
-                    string filePath = Path.Combine(_imageFolder, fileName);
-
-                    await System.IO.File.WriteAllBytesAsync(filePath, bytes);
-                }
-                catch
-                {
-                    return BadRequest(new { message = "Invalid Base64 image format" });
-                }
-            }
-
+           
             try
             {
                 var blog = new Blog
@@ -89,20 +74,14 @@ namespace GraniteAPI.Controllers
                     Title = request.Title,
                     Description = request.Description,
                     Content = request.Content,
-                    ImageFileName = fileName
+                    ImageFileName = imageUrl
+
                 };
 
                 _context.Blogs.Add(blog);
                 await _context.SaveChangesAsync();
 
-                return Ok(new BlogDto
-                {
-                    Id = blog.Id,
-                    Title = blog.Title,
-                    Description = blog.Description,
-                    Content = blog.Content,
-                    ImageFileName = blog.ImageFileName
-                });
+                return Ok(blog);
             }
             catch (Exception ex)
             {
@@ -112,7 +91,7 @@ namespace GraniteAPI.Controllers
 
         // PUT Update
         [HttpPut("update/{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] BlogCreateUpdateDto request)
+        public async Task<IActionResult> Update(int id, [FromBody] BlogCreateUpdateDto request, [FromServices] CloudinaryService cloudinary)
         {
             if (request == null)
                 return BadRequest(new { message = "Invalid request body" });
@@ -121,43 +100,20 @@ namespace GraniteAPI.Controllers
             if (blog == null)
                 return NotFound(new { message = "Blog not found with the provided ID" });
 
-            string fileName = blog.ImageFileName;
-            string oldFile = blog.ImageFileName;
-
+            // upload new image if provided
             if (!string.IsNullOrEmpty(request.ImageBase64))
             {
-                try
-                {
-                    string base64 = request.ImageBase64;
-                    if (base64.Contains(","))
-                        base64 = base64.Split(',')[1];
+                string uploadedUrl = await cloudinary.UploadBase64ImageAsync(request.ImageBase64);
 
-                    var bytes = Convert.FromBase64String(base64);
-
-                    fileName = $"{Guid.NewGuid()}.png";
-                    string path = Path.Combine(_imageFolder, fileName);
-
-                    await System.IO.File.WriteAllBytesAsync(path, bytes);
-
-                    if (!string.IsNullOrEmpty(oldFile) && oldFile != fileName)
-                    {
-                        var oldPath = Path.Combine(_imageFolder, oldFile);
-                        if (System.IO.File.Exists(oldPath))
-                            System.IO.File.Delete(oldPath);
-                    }
-                }
-                catch
-                {
-                    return BadRequest(new { message = "Invalid Base64 image format" });
-                }
+                blog.ImageFileName = uploadedUrl;   // store FULL URL
             }
+
 
             try
             {
                 blog.Title = request.Title;
                 blog.Description = request.Description;
                 blog.Content = request.Content;
-                blog.ImageFileName = fileName;
 
                 await _context.SaveChangesAsync();
 
@@ -167,7 +123,9 @@ namespace GraniteAPI.Controllers
                     Title = blog.Title,
                     Description = blog.Description,
                     Content = blog.Content,
-                    ImageFileName = blog.ImageFileName
+                    ImageFileName = blog.ImageFileName,
+                    ImageUrl = blog.ImageFileName // direct Cloudinary URL
+
                 });
             }
             catch (Exception ex)

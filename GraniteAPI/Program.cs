@@ -13,6 +13,8 @@ builder.Services.AddScoped<SendGridService>();
 // Controllers
 builder.Services.AddControllers();
 
+builder.Services.AddSingleton<CloudinaryService>();
+
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
