@@ -213,7 +213,11 @@ namespace GraniteAPI.Controllers
                     })
                     .ToListAsync();
 
-                return Ok(subCategories);
+                return Ok(new
+                {
+                    totalCount = subCategories.Count,
+                    data = subCategories
+                });
             }
             catch (Exception ex)
             {

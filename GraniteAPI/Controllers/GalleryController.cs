@@ -31,7 +31,11 @@ namespace GraniteAPI.Controllers
                 })
                 .ToListAsync();
 
-            return Ok(gallery);
+            return Ok(new
+            {
+                totalCount = gallery.Count,
+                data = gallery
+            });
         }
 
         // INSERT gallery image (no productId)

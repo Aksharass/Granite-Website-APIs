@@ -39,7 +39,11 @@ namespace GraniteAPI.Controllers
                 })
                 .ToListAsync();
 
-            return Ok(products);
+            return Ok(new
+            {
+                totalCount = products.Count,
+                data = products
+            });
         }
 
         [HttpPost("insert")]
@@ -71,7 +75,19 @@ namespace GraniteAPI.Controllers
                 ? await _context.SubCategories.FindAsync(product.SubCategoryId.Value)
                 : null;
 
-            return Ok(product);
+            return Ok(new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Brand = product.Brand,
+                Size = product.Size,
+                CategoryId = product.CategoryId,
+                Category = category?.Name ?? "",
+                SubCategoryId = product.SubCategoryId,
+                SubCategoryName = subCategory?.Name,
+                ImageUrl = product.ImageUrl ?? ""
+            });
         }
 
         [HttpPut("update/{id:int}")]
@@ -100,9 +116,24 @@ namespace GraniteAPI.Controllers
                 ? await _context.SubCategories.FindAsync(product.SubCategoryId.Value)
                 : null;
 
-            return Ok(product);
+            return Ok(new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Brand = product.Brand,
+                Size = product.Size,
+                CategoryId = product.CategoryId,
+                Category = category.Name,
+                SubCategoryId = product.SubCategoryId,
+                SubCategoryName = subCategory?.Name,
+                ImageUrl = product.ImageUrl ?? ""
+            });
         }
 
+        // ===============================
+        // DELETE PRODUCT
+        // ===============================
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
